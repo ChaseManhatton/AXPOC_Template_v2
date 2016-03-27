@@ -56,11 +56,11 @@
       "maxValue": 200,
       "metadata": { "description": "Size of Data Disks For App Servers (in GBs)?" }
     },
-    "domainJoinOptions": {
-      "type": "int",
-      "defaultValue": 3,
+    "domainUsername": {
+      "type": "string",
+      "defaultValue": "wkazadmin",
       "metadata": {
-        "description": "Set of bit flags that define the join options. Default value of 3 is a combination of NETSETUP_JOIN_DOMAIN (0x00000001) & NETSETUP_ACCT_CREATE (0x00000002) i.e. will join the domain and create the account on the domain. For more information see https://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx"
+        "description": "Username of the account on the domain"
       }
     },
     "domainPassword": {
@@ -76,11 +76,11 @@
         "description": "The FQDN of the AD domain"
       }
     },
-    "domainUsername": {
-      "type": "string",
-      "defaultValue": "wkazadmin",
+    "domainJoinOptions": {
+      "type": "int",
+      "defaultValue": 3,
       "metadata": {
-        "description": "Username of the account on the domain"
+        "description": "Set of bit flags that define the join options. Default value of 3 is a combination of NETSETUP_JOIN_DOMAIN (0x00000001) & NETSETUP_ACCT_CREATE (0x00000002) i.e. will join the domain and create the account on the domain. For more information see https://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx"
       }
     },
     "frontendSubnetCIDR": {
@@ -110,19 +110,19 @@
         "ras"
       ]
     },
-    "vmAdminPassword": {
-      "type": "securestring",
-      "minLength": 8,
-      "metadata": {
-        "description": "VM Admin Password (8 Character Minimum)?"
-      }
-    },
     "vmAdminUserName": {
       "type": "string",
       "defaultValue": "wkazadmin",
       "minLength": 5,
       "metadata": {
         "description": "VM Admin Username?"
+      }
+    },
+    "vmAdminPassword": {
+      "type": "securestring",
+      "minLength": 8,
+      "metadata": {
+        "description": "VM Admin Password (8 Character Minimum)?"
       }
     },
     "VMsWindowsOSVersion": {
@@ -149,6 +149,14 @@
       "metadata": {
         "description": "Please enter absolute URL to IISConfig package."
       }
+    },
+    "tempFilePackageUrl": {
+      "type": "string",
+      "defaultValue": null,
+      "minLength": 10,
+      "metadata": {
+        "description": "Please enter absolute URL to TempFile package."
+      }
     }
   },
   "variables": {
@@ -158,8 +166,10 @@
     "appServerNICsSubnetRef": "[concat(variables('appServerNICsVnetID'), '/subnets/', variables('AxcessPOCFESubnetName'))]",
     "appServerStorageAccountsName": "[concat('appServerStorageAccounts', uniqueString(resourceGroup().id))]",
     "batchPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_PIP'))]",
-    "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]",
-    "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
+    "batchLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]",
+    "batchLBFrontEndIPConfigID": "[concat(variables('batchLBID'),'/frontendIPConfigurations/loadBalancerFrontend')]",
+    "batchLBPoolID": "[concat(variables('batchLBID'),'/backendAddressPools/BackendPool1')]",
+    "batchLBProbeID": "[concat(variables('batchLBID'),'/probes/tcpProbe')]"
   },
   "resources": [
     {
@@ -204,7 +214,8 @@
         "displayName": "batchServerNICs"
       },
       "dependsOn": [
-        ""
+        "[concat('Microsoft.Network/loadBalancers/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]",
+        "[concat('Microsoft.Network/loadBalancers/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'), '/inboundNatRules/', 'RDP-VM', copyIndex())]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -217,12 +228,12 @@
               },
               "loadBalancerBackendAddressPools": [
                 {
-                  "id": "[concat(variables('lbID'), '/backendAddressPools/LoadBalancerBackend')]"
+                  "id": "[concat(variables('batchLBID'), '/backendAddressPools/BackendPool1')]"
                 }
               ],
               "loadBalancerInboundNatRules": [
                 {
-                  "id": "[concat(variables('lbID'),'/inboundNatRules/RDP-VM', copyindex())]"
+                  "id": "[concat(variables('batchLBID'),'/inboundNatRules/RDP-VM', copyindex())]"
                 }
               ]
             }
@@ -273,34 +284,41 @@
         ],
         "backendAddressPools": [
           {
-            "name": "LoadBalancerBackend"
+            "name": "BackendPool1"
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "LBRule",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('batchLBFrontEndIPConfigID')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('batchLBPoolID')]"
+              },
+              "protocol": "Tcp",
+              "frontendPort": 80,
+              "backendPort": 80,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 5,
+              "probe": {
+                "id": "[variables('batchLBProbeID')]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "tcpProbe",
+            "properties": {
+              "protocol": "Tcp",
+              "port": 80,
+              "intervalInSeconds": 5,
+              "numberOfProbes": 2
+            }
           }
         ]
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/loadBalancers/inboundNatRules",
-      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB', '/', 'RDP-VM', copyIndex())]",
-      "location": "[resourceGroup().location]",
-      "copy": {
-        "name": "batchLBNatCopy",
-        "count": "[parameters('batchServerCount')]"
-      },
-      "tags": {
-        "displayName": "batchLB/NATRules"
-      },
-      "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]"
-      ],
-      "properties": {
-        "frontendIPConfiguration": {
-          "id": "[variables('frontEndIPConfigID')]"
-        },
-        "protocol": "tcp",
-        "frontendPort": "[copyIndex(5000)]",
-        "backendPort": 3389,
-        "enableFloatingIP": false
       }
     },
     {
@@ -401,7 +419,7 @@
       "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '/JoinDomain'))]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/ConfigIIS'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/WriteServerIDFile'))]"
       ],
       "tags": {
         "displayName": "batchVMs/JoinDomain"
@@ -451,6 +469,35 @@
       },
       "copy": {
         "name": "batchVMsIISConfigCopy",
+        "count": "[parameters('batchServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex()),'/', 'WriteServerIDFile')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "batchVMs/WriteServerIDFile"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/ConfigIIS'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.8",
+        "settings": {
+          "ModulesUrl": "[parameters('tempFilePackageUrl')]",
+          "ConfigurationFunction": "TempFile.ps1\\CreateServerIDFile",
+          "Properties": {
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex())]"
+          }
+        },
+        "protectedSettings": null
+      },
+      "copy": {
+        "name": "batchVMsTempFileCopy",
         "count": "[parameters('batchServerCount')]"
       }
     }
