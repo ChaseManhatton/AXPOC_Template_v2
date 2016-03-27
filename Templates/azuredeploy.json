@@ -168,7 +168,7 @@
     "batchPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_PIP'))]",
     "batchLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]",
     "batchLBFrontEndIPConfigID": "[concat(variables('batchLBID'),'/frontendIPConfigurations/LoadBalancerFrontend')]",
-    "batchLBPoolID": "[concat(variables('batchLBID'),'/backendAddressPools/BackendPool1')]",
+    "batchLBPoolID": "[concat(variables('batchLBID'),'/backendAddressPools/BE')]",
     "batchLBProbeID": "[concat(variables('batchLBID'),'/probes/tcpProbe')]"
   },
   "resources": [
@@ -227,7 +227,7 @@
               },
               "loadBalancerBackendAddressPools": [
                 {
-                  "id": "[concat(variables('batchLBID'), '/backendAddressPools/BackendPool1')]"
+                  "id": "[concat(variables('batchLBID'), '/backendAddressPools/BE')]"
                 }
               ]
             }
@@ -278,7 +278,7 @@
         ],
         "backendAddressPools": [
           {
-            "name": "BackendPool1"
+            "name": "BE"
           }
         ],
         "loadBalancingRules": [
