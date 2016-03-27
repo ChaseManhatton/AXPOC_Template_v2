@@ -1,0 +1,460 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appServerHostNamePrefix": {
+      "type": "string",
+      "defaultValue": "axpoc",
+      "metadata": {
+        "description": "Hostname prefix of app server?  Example: AXPOC"
+      }
+    },
+    "appServerStorageAccountsType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "batchPoolLabel": {
+      "type": "string",
+      "defaultValue": "batchservices",
+      "minLength": 5,
+      "metadata": {
+        "description": "Please enter dns label for pool.  {DNS_LABEL}.centralus.cloudapp.azure.com"
+      }
+    },
+    "batchServerCount": {
+      "type": "int",
+      "defaultValue": 2,
+      "minValue": 2,
+      "maxValue": 10,
+      "metadata": {
+        "description": "How many Batch servers?"
+      }
+    },
+    "batchVMsSize": {
+      "type": "string",
+      "defaultValue": "Standard_A6",
+      "allowedValues": [
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A5",
+        "Standard_A6"
+      ]
+    },
+    "dataDiskSize": {
+      "type": "int",
+      "defaultValue": 60,
+      "minValue": 20,
+      "maxValue": 200,
+      "metadata": { "description": "Size of Data Disks For App Servers (in GBs)?" }
+    },
+    "domainJoinOptions": {
+      "type": "int",
+      "defaultValue": 3,
+      "metadata": {
+        "description": "Set of bit flags that define the join options. Default value of 3 is a combination of NETSETUP_JOIN_DOMAIN (0x00000001) & NETSETUP_ACCT_CREATE (0x00000002) i.e. will join the domain and create the account on the domain. For more information see https://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx"
+      }
+    },
+    "domainPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password of the account on the domain"
+      }
+    },
+    "domainToJoin": {
+      "type": "string",
+      "defaultValue": "axcesspocdc.local",
+      "metadata": {
+        "description": "The FQDN of the AD domain"
+      }
+    },
+    "domainUsername": {
+      "type": "string",
+      "defaultValue": "wkazadmin",
+      "metadata": {
+        "description": "Username of the account on the domain"
+      }
+    },
+    "frontendSubnetCIDR": {
+      "type": "string",
+      "defaultValue": "172.16.100.0/24",
+      "metadata": {
+        "description": "CIDR range of FE subnet? (i.e. 172.16.100.0/24)"
+      }
+    },
+    "frontendSubnetName": {
+      "type": "string",
+      "defaultValue": "FE",
+      "metadata": {
+        "description": "Name of frontend subnet (Example: FE)?"
+      }
+    },
+    "serverTypes": {
+      "type": "array",
+      "defaultValue": [
+        "batch",
+        "calc",
+        "lgcalc",
+        "common",
+        "download",
+        "migr",
+        "portal",
+        "ras"
+      ]
+    },
+    "vmAdminPassword": {
+      "type": "securestring",
+      "minLength": 8,
+      "metadata": {
+        "description": "VM Admin Password (8 Character Minimum)?"
+      }
+    },
+    "vmAdminUserName": {
+      "type": "string",
+      "defaultValue": "wkazadmin",
+      "minLength": 5,
+      "metadata": {
+        "description": "VM Admin Username?"
+      }
+    },
+    "VMsWindowsOSVersion": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": [
+        "2008-R2-SP1",
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "Windows-Server-Technical-Preview"
+      ]
+    },
+    "vnetName": {
+      "type": "string",
+      "defaultValue": "AxcessPOC",
+      "metadata": {
+        "description": "Virtual Network Name (must be 1 word no special chars)?"
+      }
+    },
+    "iisConfigPackageUrl": {
+      "type": "string",
+      "defaultValue": null,
+      "minLength": 10,
+      "metadata": {
+        "description": "Please enter absolute URL to IISConfig package."
+      }
+    }
+  },
+  "variables": {
+    "AxcessPOCFESubnetName": "[parameters('frontendSubnetName')]",
+    "AxcessPOCFESubnetCIDR": "[parameters('frontendSubnetCIDR')]",
+    "appServerNICsVnetID": "[resourceId('AxcessPOC_VNET', 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
+    "appServerNICsSubnetRef": "[concat(variables('appServerNICsVnetID'), '/subnets/', variables('AxcessPOCFESubnetName'))]",
+    "appServerStorageAccountsName": "[concat('appServerStorageAccounts', uniqueString(resourceGroup().id))]",
+    "batchPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_PIP'))]",
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]",
+    "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontend')]"
+  },
+  "resources": [
+    {
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), parameters('serverTypes')[copyIndex()]))]",
+      "type": "Microsoft.Compute/availabilitySets",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "appServerAvailSets"
+      },
+      "properties": {
+        "platformFaultDomainCount": 2,
+        "platformUpdateDomainCount": 2
+      },
+      "copy": {
+        "count": "[length(parameters('serverTypes'))]",
+        "name": "appServerAvailSetsCopy"
+      }
+    },
+    {
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), parameters('serverTypes')[copyIndex()]))]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "appServerStorageAccounts"
+      },
+      "properties": {
+        "accountType": "[parameters('appServerStorageAccountsType')]"
+      },
+      "copy": {
+        "name": "appServerStorageAccountsCopy",
+        "count": "[length(parameters('serverTypes'))]"
+      }
+    },
+    {
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex()))]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "batchServerNICs"
+      },
+      "dependsOn": [
+        ""
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "FEAdapter",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('appServerNICsSubnetRef')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(variables('lbID'), '/backendAddressPools/LoadBalancerBackend')]"
+                }
+              ],
+              "loadBalancerInboundNatRules": [
+                {
+                  "id": "[concat(variables('lbID'),'/inboundNatRules/RDP-VM', copyindex())]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "copy": {
+        "name": "batchServerNICsCopy",
+        "count": "[parameters('batchServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_PIP')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "batchPublicIP"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[concat(toUpper(parameters('appServerHostNamePrefix')), '_', parameters('batchPoolLabel'))]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB')]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "batchLB"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_PIP'))]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "LoadBalancerFrontend",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[variables('batchPIPAddressID')]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "LoadBalancerBackend"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB', '/', 'RDP-VM', copyIndex())]",
+      "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "batchLBNatCopy",
+        "count": "[parameters('batchServerCount')]"
+      },
+      "tags": {
+        "displayName": "batchLB/NATRules"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]"
+      ],
+      "properties": {
+        "frontendIPConfiguration": {
+          "id": "[variables('frontEndIPConfigID')]"
+        },
+        "protocol": "tcp",
+        "frontendPort": "[copyIndex(5000)]",
+        "backendPort": 3389,
+        "enableFloatingIP": false
+      }
+    },
+    {
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex()))]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch')))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex())))]",
+        "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch')))]"
+      ],
+      "tags": {
+        "displayName": "batchVMs"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('batchVMsSize')]"
+        },
+        "osProfile": {
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex()))]",
+          "adminUsername": "[parameters('vmAdminUsername')]",
+          "adminPassword": "[parameters('vmAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "[parameters('VMsWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "dataDisks": [
+            {
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '-DATA'))]",
+              "diskSizeGB": "[parameters('dataDiskSize')]",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'batch')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '-DATA')), '.vhd')]"
+              },
+              "createOption": "Empty"
+            }
+          ],
+          "osDisk": {
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '-OS'))]",
+            "vhd": {
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'batch')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '-OS')), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex())))]"
+            }
+          ]
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',toLower(concat(parameters('appServerHostNamePrefix'), 'batch')))]"
+        }
+      },
+      "copy": {
+        "name": "batchVMsCopy",
+        "count": "[parameters('batchServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/DataDriveConfig')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex())))]"
+      ],
+      "tags": {
+        "displayName": "batchVMs/DataDriveConfig"
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/ChaseManhatton/AXPOC_Template/master/Scripts/InitDataDrive.ps1"
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -file InitDataDrive.ps1"
+        }
+      },
+      "copy": {
+        "name": "batchDiskConfigCopy",
+        "count": "[parameters('batchServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '/JoinDomain'))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/ConfigIIS'))]"
+      ],
+      "tags": {
+        "displayName": "batchVMs/JoinDomain"
+      },
+      "properties": {
+        "protectedsettings": {
+          "Password": "[parameters('domainPassword')]"
+        },
+        "publisher": "Microsoft.Compute",
+        "settings": {
+          "Name": "[parameters('domainToJoin')]",
+          "User": "[concat(parameters('domainToJoin'), '\\', parameters('domainUsername'))]",
+          "Restart": "true",
+          "Options": "[parameters('domainJoinOptions')]"
+        },
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.0"
+      },
+      "copy": {
+        "name": "batchVMsJoinDomainExtCopy",
+        "count": "[parameters('batchServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex()),'/', 'ConfigIIS')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "batchVMs/ConfigIIS"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/DataDriveConfig'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.8",
+        "settings": {
+          "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
+          "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
+          "Properties": {
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex())]"
+          }
+        },
+        "protectedSettings": null
+      },
+      "copy": {
+        "name": "batchVMsIISConfigCopy",
+        "count": "[parameters('batchServerCount')]"
+      }
+    }
+  ],
+  "outputs": {
+  }
+}
