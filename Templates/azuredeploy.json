@@ -1,5 +1,5 @@
 ﻿{
-  "$schema": "https://schema.management.azure.com/schemas/2016-03-30/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "appServerHostNamePrefix": {
@@ -39,7 +39,7 @@
     },
     "batchVMsSize": {
       "type": "string",
-      "defaultValue": "Standard_A6",
+      "defaultValue": "Standard_A1",
       "allowedValues": [
         "Standard_A1",
         "Standard_A2",
@@ -64,7 +64,8 @@
       }
     },
     "domainPassword": {
-      "type": "securestring",
+      "type": "string",
+      "defaultValue": "AxcessPOC!1",
       "metadata": {
         "description": "Password of the account on the domain"
       }
@@ -100,14 +101,7 @@
     "serverTypes": {
       "type": "array",
       "defaultValue": [
-        "batch",
-        "calc",
-        "lgcalc",
-        "common",
-        "download",
-        "migr",
-        "portal",
-        "ras"
+        "batch"
       ]
     },
     "vmAdminUserName": {
@@ -119,7 +113,8 @@
       }
     },
     "vmAdminPassword": {
-      "type": "securestring",
+      "type": "string",
+      "defaultValue": "AxcessPOC!1",
       "minLength": 8,
       "metadata": {
         "description": "VM Admin Password (8 Character Minimum)?"
@@ -141,22 +136,6 @@
       "metadata": {
         "description": "Virtual Network Name (must be 1 word no special chars)?"
       }
-    },
-    "iisConfigPackageUrl": {
-      "type": "string",
-      "defaultValue": null,
-      "minLength": 10,
-      "metadata": {
-        "description": "Please enter absolute URL to IISConfig package."
-      }
-    },
-    "tempFilePackageUrl": {
-      "type": "string",
-      "defaultValue": null,
-      "minLength": 10,
-      "metadata": {
-        "description": "Please enter absolute URL to TempFile package."
-      }
     }
   },
   "variables": {
@@ -167,7 +146,7 @@
     "appServerStorageAccountsName": "[concat('appServerStorageAccounts', uniqueString(resourceGroup().id))]",
     "batchPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_PIP'))]",
     "batchLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]",
-    "batchLBFrontEndIPConfigID": "[concat(variables('batchLBID'),'/frontendIPConfigurations/LoadBalancerFrontend')]",
+    "batchLBFrontEndIPConfigID": "[concat(variables('batchLBID'),'/frontendIPConfigurations/loadBalancerFrontEnd')]",
     "batchLBPoolID": "[concat(variables('batchLBID'),'/backendAddressPools/BackendPool1')]",
     "batchLBProbeID": "[concat(variables('batchLBID'),'/probes/tcpProbe')]"
   },
@@ -292,6 +271,7 @@
                 "id": "[variables('batchLBPoolID')]"
               },
               "protocol": "Tcp",
+              "loadDistribution": "SourceIP",
               "frontendPort": 80,
               "backendPort": 80,
               "enableFloatingIP": false,
@@ -413,7 +393,7 @@
       "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '/JoinDomain'))]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/WriteServerIDFile'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/DataDriveConfig'))]"
       ],
       "tags": {
         "displayName": "batchVMs/JoinDomain"
@@ -434,64 +414,6 @@
       },
       "copy": {
         "name": "batchVMsJoinDomainExtCopy",
-        "count": "[parameters('batchServerCount')]"
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex()),'/', 'ConfigIIS')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "batchVMs/ConfigIIS"
-      },
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/DataDriveConfig'))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.Powershell",
-        "type": "DSC",
-        "typeHandlerVersion": "2.8",
-        "settings": {
-          "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
-          "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
-          "Properties": {
-            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex())]"
-          }
-        },
-        "protectedSettings": null
-      },
-      "copy": {
-        "name": "batchVMsIISConfigCopy",
-        "count": "[parameters('batchServerCount')]"
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex()),'/', 'WriteServerIDFile')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "batchVMs/WriteServerIDFile"
-      },
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/ConfigIIS'))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.Powershell",
-        "type": "DSC",
-        "typeHandlerVersion": "2.8",
-        "settings": {
-          "ModulesUrl": "[parameters('tempFilePackageUrl')]",
-          "ConfigurationFunction": "TempFile.ps1\\CreateServerIDFile",
-          "Properties": {
-            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex())]"
-          }
-        },
-        "protectedSettings": null
-      },
-      "copy": {
-        "name": "batchVMsTempFileCopy",
         "count": "[parameters('batchServerCount')]"
       }
     }
