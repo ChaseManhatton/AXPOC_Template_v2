@@ -49,6 +49,201 @@
         "Standard_A6"
       ]
     },
+    "calcPoolLabel": {
+      "type": "string",
+      "defaultValue": "returnservices",
+      "minLength": 5,
+      "metadata": {
+        "description": "Please enter dns label for pool.  {DNS_LABEL}.centralus.cloudapp.azure.com"
+      }
+    },
+    "calcServerCount": {
+      "type": "int",
+      "defaultValue": 2,
+      "minValue": 2,
+      "maxValue": 10,
+      "metadata": {
+        "description": "How many Calc servers?"
+      }
+    },
+    "calcVMsSize": {
+      "type": "string",
+      "defaultValue": "Standard_A6",
+      "allowedValues": [
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A5",
+        "Standard_A6"
+      ]
+    },
+    "lgCalcPoolLabel": {
+      "type": "string",
+      "defaultValue": "largereturnservices",
+      "minLength": 5,
+      "metadata": {
+        "description": "Please enter dns label for pool.  {DNS_LABEL}.centralus.cloudapp.azure.com"
+      }
+    },
+    "lgCalcServerCount": {
+      "type": "int",
+      "defaultValue": 2,
+      "minValue": 2,
+      "maxValue": 10,
+      "metadata": {
+        "description": "How many Large Calc servers?"
+      }
+    },
+    "lgCalcVMsSize": {
+      "type": "string",
+      "defaultValue": "Standard_A6",
+      "allowedValues": [
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A5",
+        "Standard_A6"
+      ]
+    },
+    "commonPoolLabel": {
+      "type": "string",
+      "defaultValue": "commonservices",
+      "minLength": 5,
+      "metadata": {
+        "description": "Please enter dns label for pool.  {DNS_LABEL}.centralus.cloudapp.azure.com"
+      }
+    },
+    "commonServerCount": {
+      "type": "int",
+      "defaultValue": 2,
+      "minValue": 2,
+      "maxValue": 10,
+      "metadata": {
+        "description": "How many Common servers?"
+      }
+    },
+    "commonVMsSize": {
+      "type": "string",
+      "defaultValue": "Standard_A6",
+      "allowedValues": [
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A5",
+        "Standard_A6"
+      ]
+    },
+    "downloadPoolLabel": {
+      "type": "string",
+      "defaultValue": "download",
+      "minLength": 5,
+      "metadata": {
+        "description": "Please enter dns label for pool.  {DNS_LABEL}.centralus.cloudapp.azure.com"
+      }
+    },
+    "downloadServerCount": {
+      "type": "int",
+      "defaultValue": 2,
+      "minValue": 2,
+      "maxValue": 10,
+      "metadata": {
+        "description": "How many Download servers?"
+      }
+    },
+    "downloadVMsSize": {
+      "type": "string",
+      "defaultValue": "Standard_A6",
+      "allowedValues": [
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A5",
+        "Standard_A6"
+      ]
+    },
+    "migrPoolLabel": {
+      "type": "string",
+      "defaultValue": "datamigration",
+      "minLength": 5,
+      "metadata": {
+        "description": "Please enter dns label for pool.  {DNS_LABEL}.centralus.cloudapp.azure.com"
+      }
+    },
+    "migrServerCount": {
+      "type": "int",
+      "defaultValue": 2,
+      "minValue": 2,
+      "maxValue": 10,
+      "metadata": {
+        "description": "How many Migration servers?"
+      }
+    },
+    "migrVMsSize": {
+      "type": "string",
+      "defaultValue": "Standard_A6",
+      "allowedValues": [
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A5",
+        "Standard_A6"
+      ]
+    },
+    "portalPoolLabel": {
+      "type": "string",
+      "defaultValue": "portal",
+      "minLength": 5,
+      "metadata": {
+        "description": "Please enter dns label for pool.  {DNS_LABEL}.centralus.cloudapp.azure.com"
+      }
+    },
+    "portalServerCount": {
+      "type": "int",
+      "defaultValue": 2,
+      "minValue": 2,
+      "maxValue": 10,
+      "metadata": {
+        "description": "How many Portal servers?"
+      }
+    },
+    "portalVMsSize": {
+      "type": "string",
+      "defaultValue": "Standard_A6",
+      "allowedValues": [
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A5",
+        "Standard_A6"
+      ]
+    },
+    "rasServerCount": {
+      "type": "int",
+      "defaultValue": 2,
+      "minValue": 2,
+      "maxValue": 10,
+      "metadata": {
+        "description": "How many RAS servers?"
+      }
+    },
+    "rasVMsSize": {
+      "type": "string",
+      "defaultValue": "Standard_A6",
+      "allowedValues": [
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A5",
+        "Standard_A6"
+      ]
+    },
     "dataDiskSize": {
       "type": "int",
       "defaultValue": 60,
@@ -144,18 +339,10 @@
     },
     "iisConfigPackageUrl": {
       "type": "string",
-      "defaultValue": null,
+      "defaultValue": "https://github.com/ChaseManhatton/AXPOC_Template_v2/raw/master/Tools/AppServerConfig.ps1.zip",
       "minLength": 10,
       "metadata": {
         "description": "Please enter absolute URL to IISConfig package."
-      }
-    },
-    "tempFilePackageUrl": {
-      "type": "string",
-      "defaultValue": null,
-      "minLength": 10,
-      "metadata": {
-        "description": "Please enter absolute URL to TempFile package."
       }
     }
   },
@@ -165,11 +352,41 @@
     "appServerNICsVnetID": "[resourceId('AxcessPOC_VNET', 'Microsoft.Network/virtualNetworks', parameters('vnetName'))]",
     "appServerNICsSubnetRef": "[concat(variables('appServerNICsVnetID'), '/subnets/', variables('AxcessPOCFESubnetName'))]",
     "appServerStorageAccountsName": "[concat('appServerStorageAccounts', uniqueString(resourceGroup().id))]",
-    "batchPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_PIP'))]",
-    "batchLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]",
+    "batchPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'batch_PIP'))]",
+    "batchLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'batch_LB'))]",
     "batchLBFrontEndIPConfigID": "[concat(variables('batchLBID'),'/frontendIPConfigurations/LoadBalancerFrontend')]",
     "batchLBPoolID": "[concat(variables('batchLBID'),'/backendAddressPools/BE')]",
-    "batchLBProbeID": "[concat(variables('batchLBID'),'/probes/tcpProbe')]"
+    "batchLBProbeID": "[concat(variables('batchLBID'),'/probes/tcpProbe')]",
+    "calcPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'calc_PIP'))]",
+    "calcLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'calc_LB'))]",
+    "calcLBFrontEndIPConfigID": "[concat(variables('calcLBID'),'/frontendIPConfigurations/LoadBalancerFrontend')]",
+    "calcLBPoolID": "[concat(variables('calcLBID'),'/backendAddressPools/BE')]",
+    "calcLBProbeID": "[concat(variables('calcLBID'),'/probes/tcpProbe')]",
+    "lgCalcPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'lgcalc_PIP'))]",
+    "lgCalcLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'lgcalc_LB'))]",
+    "lgCalcLBFrontEndIPConfigID": "[concat(variables('lgcalcLBID'),'/frontendIPConfigurations/LoadBalancerFrontend')]",
+    "lgCalcLBPoolID": "[concat(variables('lgcalcLBID'),'/backendAddressPools/BE')]",
+    "lgCalcLBProbeID": "[concat(variables('lgcalcLBID'),'/probes/tcpProbe')]",
+    "commonPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'common_PIP'))]",
+    "commonLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'common_LB'))]",
+    "commonLBFrontEndIPConfigID": "[concat(variables('commonLBID'),'/frontendIPConfigurations/LoadBalancerFrontend')]",
+    "commonLBPoolID": "[concat(variables('commonLBID'),'/backendAddressPools/BE')]",
+    "commonLBProbeID": "[concat(variables('commonLBID'),'/probes/tcpProbe')]",
+    "downloadPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'download_PIP'))]",
+    "downloadLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'download_LB'))]",
+    "downloadLBFrontEndIPConfigID": "[concat(variables('downloadLBID'),'/frontendIPConfigurations/LoadBalancerFrontend')]",
+    "downloadLBPoolID": "[concat(variables('downloadLBID'),'/backendAddressPools/BE')]",
+    "downloadLBProbeID": "[concat(variables('downloadLBID'),'/probes/tcpProbe')]",
+    "migrPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'migr_PIP'))]",
+    "migrLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'migr_LB'))]",
+    "migrLBFrontEndIPConfigID": "[concat(variables('migrLBID'),'/frontendIPConfigurations/LoadBalancerFrontend')]",
+    "migrLBPoolID": "[concat(variables('migrLBID'),'/backendAddressPools/BE')]",
+    "migrLBProbeID": "[concat(variables('migrLBID'),'/probes/tcpProbe')]",
+    "portalPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'portal_PIP'))]",
+    "portalLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'portal_LB'))]",
+    "portalLBFrontEndIPConfigID": "[concat(variables('portalLBID'),'/frontendIPConfigurations/LoadBalancerFrontend')]",
+    "portalLBPoolID": "[concat(variables('portalLBID'),'/backendAddressPools/BE')]",
+    "portalLBProbeID": "[concat(variables('portalLBID'),'/probes/tcpProbe')]"
   },
   "resources": [
     {
@@ -214,7 +431,7 @@
         "displayName": "batchServerNICs"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]"
+        "[concat('Microsoft.Network/loadBalancers/', concat(toLower(parameters('appServerHostNamePrefix')), 'batch_LB'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -242,7 +459,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_PIP')]",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'batch_PIP')]",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "batchPublicIP"
@@ -256,14 +473,14 @@
     },
     {
       "apiVersion": "2015-06-15",
-      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB')]",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'batch_LB')]",
       "type": "Microsoft.Network/loadBalancers",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "batchLB"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_PIP'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/', concat(toLower(parameters('appServerHostNamePrefix')), 'batch_PIP'))]"
       ],
       "properties": {
         "frontendIPConfigurations": [
@@ -413,7 +630,7 @@
       "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '/JoinDomain'))]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/WriteServerIDFile'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/ConfigIIS'))]"
       ],
       "tags": {
         "displayName": "batchVMs/JoinDomain"
@@ -464,6 +681,1749 @@
       "copy": {
         "name": "batchVMsIISConfigCopy",
         "count": "[parameters('batchServerCount')]"
+      }
+    },
+    {
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex()))]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "calcServerNICs"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/', concat(toLower(parameters('appServerHostNamePrefix')), 'calc_LB'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "FEAdapter",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('appServerNICsSubnetRef')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(variables('calcLBID'), '/backendAddressPools/BE')]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "copy": {
+        "name": "calcServerNICsCopy",
+        "count": "[parameters('calcServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'calc_PIP')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "calcPublicIP"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[toLower(concat(parameters('appServerHostNamePrefix'), parameters('calcPoolLabel')))]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'calc_LB')]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "calcLB"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', concat(toLower(parameters('appServerHostNamePrefix')), 'calc_PIP'))]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "LoadBalancerFrontend",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[variables('calcPIPAddressID')]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "BE"
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "LBRule",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('calcLBFrontEndIPConfigID')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('calcLBPoolID')]"
+              },
+              "protocol": "Tcp",
+              "frontendPort": 80,
+              "backendPort": 80,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 5,
+              "probe": {
+                "id": "[variables('calcLBProbeID')]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "tcpProbe",
+            "properties": {
+              "protocol": "Tcp",
+              "port": 80,
+              "intervalInSeconds": 5,
+              "numberOfProbes": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex()))]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc')))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex())))]",
+        "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc')))]"
+      ],
+      "tags": {
+        "displayName": "calcVMs"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('calcVMsSize')]"
+        },
+        "osProfile": {
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex()))]",
+          "adminUsername": "[parameters('vmAdminUsername')]",
+          "adminPassword": "[parameters('vmAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "[parameters('VMsWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "dataDisks": [
+            {
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex(), '-DATA'))]",
+              "diskSizeGB": "[parameters('dataDiskSize')]",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'calc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex(), '-DATA')), '.vhd')]"
+              },
+              "createOption": "Empty"
+            }
+          ],
+          "osDisk": {
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex(), '-OS'))]",
+            "vhd": {
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'calc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex(), '-OS')), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex())))]"
+            }
+          ]
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',toLower(concat(parameters('appServerHostNamePrefix'), 'calc')))]"
+        }
+      },
+      "copy": {
+        "name": "calcVMsCopy",
+        "count": "[parameters('calcServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', copyIndex(), '/DataDriveConfig')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex())))]"
+      ],
+      "tags": {
+        "displayName": "calcVMs/DataDriveConfig"
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/ChaseManhatton/AXPOC_Template/master/Scripts/InitDataDrive.ps1"
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -file InitDataDrive.ps1"
+        }
+      },
+      "copy": {
+        "name": "calcDiskConfigCopy",
+        "count": "[parameters('calcServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex(), '/JoinDomain'))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', copyIndex(), '/extensions/ConfigIIS'))]"
+      ],
+      "tags": {
+        "displayName": "calcVMs/JoinDomain"
+      },
+      "properties": {
+        "protectedsettings": {
+          "Password": "[parameters('domainPassword')]"
+        },
+        "publisher": "Microsoft.Compute",
+        "settings": {
+          "Name": "[parameters('domainToJoin')]",
+          "User": "[concat(parameters('domainToJoin'), '\\', parameters('domainUsername'))]",
+          "Restart": "true",
+          "Options": "[parameters('domainJoinOptions')]"
+        },
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.0"
+      },
+      "copy": {
+        "name": "calcVMsJoinDomainExtCopy",
+        "count": "[parameters('calcServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', copyIndex()),'/', 'ConfigIIS')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "calcVMs/ConfigIIS"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', copyIndex(), '/extensions/DataDriveConfig'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.8",
+        "settings": {
+          "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
+          "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
+          "Properties": {
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', copyIndex())]"
+          }
+        },
+        "protectedSettings": null
+      },
+      "copy": {
+        "name": "calcVMsIISConfigCopy",
+        "count": "[parameters('calcServerCount')]"
+      }
+    },
+    {
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex()))]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "lgCalcServerNICs"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/', concat(toLower(parameters('appServerHostNamePrefix')), 'lgcalc_LB'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "FEAdapter",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('appServerNICsSubnetRef')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(variables('lgCalcLBID'), '/backendAddressPools/BE')]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "copy": {
+        "name": "lgCalcServerNICsCopy",
+        "count": "[parameters('lgCalcServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'lgcalc_PIP')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "lgCalcPublicIP"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[toLower(concat(parameters('appServerHostNamePrefix'), parameters('lgCalcPoolLabel')))]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'lgcalc_LB')]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "lgCalcLB"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', concat(toLower(parameters('appServerHostNamePrefix')), 'lgcalc_PIP'))]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "LoadBalancerFrontend",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[variables('lgCalcPIPAddressID')]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "BE"
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "LBRule",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('lgCalcLBFrontEndIPConfigID')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('lgCalcLBPoolID')]"
+              },
+              "protocol": "Tcp",
+              "frontendPort": 80,
+              "backendPort": 80,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 5,
+              "probe": {
+                "id": "[variables('lgCalcLBProbeID')]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "tcpProbe",
+            "properties": {
+              "protocol": "Tcp",
+              "port": 80,
+              "intervalInSeconds": 5,
+              "numberOfProbes": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex()))]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc')))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex())))]",
+        "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc')))]"
+      ],
+      "tags": {
+        "displayName": "lgCalcVMs"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('lgCalcVMsSize')]"
+        },
+        "osProfile": {
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex()))]",
+          "adminUsername": "[parameters('vmAdminUsername')]",
+          "adminPassword": "[parameters('vmAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "[parameters('VMsWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "dataDisks": [
+            {
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex(), '-DATA'))]",
+              "diskSizeGB": "[parameters('dataDiskSize')]",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex(), '-DATA')), '.vhd')]"
+              },
+              "createOption": "Empty"
+            }
+          ],
+          "osDisk": {
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex(), '-OS'))]",
+            "vhd": {
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex(), '-OS')), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex())))]"
+            }
+          ]
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc')))]"
+        }
+      },
+      "copy": {
+        "name": "lgCalcVMsCopy",
+        "count": "[parameters('lgCalcServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', copyIndex(), '/DataDriveConfig')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex())))]"
+      ],
+      "tags": {
+        "displayName": "lgCalcVMs/DataDriveConfig"
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/ChaseManhatton/AXPOC_Template/master/Scripts/InitDataDrive.ps1"
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -file InitDataDrive.ps1"
+        }
+      },
+      "copy": {
+        "name": "lgCalcDiskConfigCopy",
+        "count": "[parameters('lgCalcServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex(), '/JoinDomain'))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', copyIndex(), '/extensions/ConfigIIS'))]"
+      ],
+      "tags": {
+        "displayName": "lgCalcVMs/JoinDomain"
+      },
+      "properties": {
+        "protectedsettings": {
+          "Password": "[parameters('domainPassword')]"
+        },
+        "publisher": "Microsoft.Compute",
+        "settings": {
+          "Name": "[parameters('domainToJoin')]",
+          "User": "[concat(parameters('domainToJoin'), '\\', parameters('domainUsername'))]",
+          "Restart": "true",
+          "Options": "[parameters('domainJoinOptions')]"
+        },
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.0"
+      },
+      "copy": {
+        "name": "lgCalcVMsJoinDomainExtCopy",
+        "count": "[parameters('lgCalcServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', copyIndex()),'/', 'ConfigIIS')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "lgCalcVMs/ConfigIIS"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', copyIndex(), '/extensions/DataDriveConfig'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.8",
+        "settings": {
+          "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
+          "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
+          "Properties": {
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', copyIndex())]"
+          }
+        },
+        "protectedSettings": null
+      },
+      "copy": {
+        "name": "lgCalcVMsIISConfigCopy",
+        "count": "[parameters('lgCalcServerCount')]"
+      }
+    },
+    {
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex()))]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "commonServerNICs"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/', concat(toLower(parameters('appServerHostNamePrefix')), 'common_LB'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "FEAdapter",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('appServerNICsSubnetRef')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(variables('commonLBID'), '/backendAddressPools/BE')]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "copy": {
+        "name": "commonServerNICsCopy",
+        "count": "[parameters('commonServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'common_PIP')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "commonPublicIP"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[toLower(concat(parameters('appServerHostNamePrefix'), parameters('commonPoolLabel')))]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'common_LB')]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "commonLB"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', concat(toLower(parameters('appServerHostNamePrefix')), 'common_PIP'))]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "LoadBalancerFrontend",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[variables('commonPIPAddressID')]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "BE"
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "LBRule",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('commonLBFrontEndIPConfigID')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('commonLBPoolID')]"
+              },
+              "protocol": "Tcp",
+              "frontendPort": 80,
+              "backendPort": 80,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 5,
+              "probe": {
+                "id": "[variables('commonLBProbeID')]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "tcpProbe",
+            "properties": {
+              "protocol": "Tcp",
+              "port": 80,
+              "intervalInSeconds": 5,
+              "numberOfProbes": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex()))]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'common')))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex())))]",
+        "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'common')))]"
+      ],
+      "tags": {
+        "displayName": "commonVMs"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('commonVMsSize')]"
+        },
+        "osProfile": {
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex()))]",
+          "adminUsername": "[parameters('vmAdminUsername')]",
+          "adminPassword": "[parameters('vmAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "[parameters('VMsWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "dataDisks": [
+            {
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex(), '-DATA'))]",
+              "diskSizeGB": "[parameters('dataDiskSize')]",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'common')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex(), '-DATA')), '.vhd')]"
+              },
+              "createOption": "Empty"
+            }
+          ],
+          "osDisk": {
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex(), '-OS'))]",
+            "vhd": {
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'common')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex(), '-OS')), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex())))]"
+            }
+          ]
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',toLower(concat(parameters('appServerHostNamePrefix'), 'common')))]"
+        }
+      },
+      "copy": {
+        "name": "commonVMsCopy",
+        "count": "[parameters('commonServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', copyIndex(), '/DataDriveConfig')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex())))]"
+      ],
+      "tags": {
+        "displayName": "commonVMs/DataDriveConfig"
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/ChaseManhatton/AXPOC_Template/master/Scripts/InitDataDrive.ps1"
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -file InitDataDrive.ps1"
+        }
+      },
+      "copy": {
+        "name": "commonDiskConfigCopy",
+        "count": "[parameters('commonServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex(), '/JoinDomain'))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', copyIndex(), '/extensions/ConfigIIS'))]"
+      ],
+      "tags": {
+        "displayName": "commonVMs/JoinDomain"
+      },
+      "properties": {
+        "protectedsettings": {
+          "Password": "[parameters('domainPassword')]"
+        },
+        "publisher": "Microsoft.Compute",
+        "settings": {
+          "Name": "[parameters('domainToJoin')]",
+          "User": "[concat(parameters('domainToJoin'), '\\', parameters('domainUsername'))]",
+          "Restart": "true",
+          "Options": "[parameters('domainJoinOptions')]"
+        },
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.0"
+      },
+      "copy": {
+        "name": "commonVMsJoinDomainExtCopy",
+        "count": "[parameters('commonServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', copyIndex()),'/', 'ConfigIIS')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "commonVMs/ConfigIIS"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', copyIndex(), '/extensions/DataDriveConfig'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.8",
+        "settings": {
+          "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
+          "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
+          "Properties": {
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', copyIndex())]"
+          }
+        },
+        "protectedSettings": null
+      },
+      "copy": {
+        "name": "commonVMsIISConfigCopy",
+        "count": "[parameters('commonServerCount')]"
+      }
+    },
+    {
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex()))]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "downloadServerNICs"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/', concat(toLower(parameters('appServerHostNamePrefix')), 'download_LB'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "FEAdapter",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('appServerNICsSubnetRef')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(variables('downloadLBID'), '/backendAddressPools/BE')]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "copy": {
+        "name": "downloadServerNICsCopy",
+        "count": "[parameters('downloadServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'download_PIP')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "downloadPublicIP"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[toLower(concat(parameters('appServerHostNamePrefix'), parameters('downloadPoolLabel')))]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'download_LB')]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "downloadLB"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', concat(toLower(parameters('appServerHostNamePrefix')), 'download_PIP'))]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "LoadBalancerFrontend",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[variables('downloadPIPAddressID')]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "BE"
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "LBRule",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('downloadLBFrontEndIPConfigID')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('downloadLBPoolID')]"
+              },
+              "protocol": "Tcp",
+              "frontendPort": 80,
+              "backendPort": 80,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 5,
+              "probe": {
+                "id": "[variables('downloadLBProbeID')]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "tcpProbe",
+            "properties": {
+              "protocol": "Tcp",
+              "port": 80,
+              "intervalInSeconds": 5,
+              "numberOfProbes": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex()))]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'download')))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex())))]",
+        "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'download')))]"
+      ],
+      "tags": {
+        "displayName": "downloadVMs"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('downloadVMsSize')]"
+        },
+        "osProfile": {
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex()))]",
+          "adminUsername": "[parameters('vmAdminUsername')]",
+          "adminPassword": "[parameters('vmAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "[parameters('VMsWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "dataDisks": [
+            {
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex(), '-DATA'))]",
+              "diskSizeGB": "[parameters('dataDiskSize')]",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'download')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex(), '-DATA')), '.vhd')]"
+              },
+              "createOption": "Empty"
+            }
+          ],
+          "osDisk": {
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex(), '-OS'))]",
+            "vhd": {
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'download')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex(), '-OS')), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex())))]"
+            }
+          ]
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',toLower(concat(parameters('appServerHostNamePrefix'), 'download')))]"
+        }
+      },
+      "copy": {
+        "name": "downloadVMsCopy",
+        "count": "[parameters('downloadServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', copyIndex(), '/DataDriveConfig')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex())))]"
+      ],
+      "tags": {
+        "displayName": "downloadVMs/DataDriveConfig"
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/ChaseManhatton/AXPOC_Template/master/Scripts/InitDataDrive.ps1"
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -file InitDataDrive.ps1"
+        }
+      },
+      "copy": {
+        "name": "downloadDiskConfigCopy",
+        "count": "[parameters('downloadServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex(), '/JoinDomain'))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', copyIndex(), '/extensions/ConfigIIS'))]"
+      ],
+      "tags": {
+        "displayName": "downloadVMs/JoinDomain"
+      },
+      "properties": {
+        "protectedsettings": {
+          "Password": "[parameters('domainPassword')]"
+        },
+        "publisher": "Microsoft.Compute",
+        "settings": {
+          "Name": "[parameters('domainToJoin')]",
+          "User": "[concat(parameters('domainToJoin'), '\\', parameters('domainUsername'))]",
+          "Restart": "true",
+          "Options": "[parameters('domainJoinOptions')]"
+        },
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.0"
+      },
+      "copy": {
+        "name": "downloadVMsJoinDomainExtCopy",
+        "count": "[parameters('downloadServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', copyIndex()),'/', 'ConfigIIS')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "downloadVMs/ConfigIIS"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', copyIndex(), '/extensions/DataDriveConfig'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.8",
+        "settings": {
+          "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
+          "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
+          "Properties": {
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', copyIndex())]"
+          }
+        },
+        "protectedSettings": null
+      },
+      "copy": {
+        "name": "downloadVMsIISConfigCopy",
+        "count": "[parameters('downloadServerCount')]"
+      }
+    },
+    {
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex()))]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "migrServerNICs"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/', concat(toLower(parameters('appServerHostNamePrefix')), 'migr_LB'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "FEAdapter",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('appServerNICsSubnetRef')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(variables('migrLBID'), '/backendAddressPools/BE')]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "copy": {
+        "name": "migrServerNICsCopy",
+        "count": "[parameters('migrServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'migr_PIP')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "migrPublicIP"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[toLower(concat(parameters('appServerHostNamePrefix'), parameters('migrPoolLabel')))]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'migr_LB')]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "migrLB"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', concat(toLower(parameters('appServerHostNamePrefix')), 'migr_PIP'))]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "LoadBalancerFrontend",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[variables('migrPIPAddressID')]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "BE"
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "LBRule",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('migrLBFrontEndIPConfigID')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('migrLBPoolID')]"
+              },
+              "protocol": "Tcp",
+              "frontendPort": 80,
+              "backendPort": 80,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 5,
+              "probe": {
+                "id": "[variables('migrLBProbeID')]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "tcpProbe",
+            "properties": {
+              "protocol": "Tcp",
+              "port": 80,
+              "intervalInSeconds": 5,
+              "numberOfProbes": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex()))]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr')))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex())))]",
+        "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr')))]"
+      ],
+      "tags": {
+        "displayName": "migrVMs"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('migrVMsSize')]"
+        },
+        "osProfile": {
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex()))]",
+          "adminUsername": "[parameters('vmAdminUsername')]",
+          "adminPassword": "[parameters('vmAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "[parameters('VMsWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "dataDisks": [
+            {
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex(), '-DATA'))]",
+              "diskSizeGB": "[parameters('dataDiskSize')]",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'migr')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex(), '-DATA')), '.vhd')]"
+              },
+              "createOption": "Empty"
+            }
+          ],
+          "osDisk": {
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex(), '-OS'))]",
+            "vhd": {
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'migr')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex(), '-OS')), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex())))]"
+            }
+          ]
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',toLower(concat(parameters('appServerHostNamePrefix'), 'migr')))]"
+        }
+      },
+      "copy": {
+        "name": "migrVMsCopy",
+        "count": "[parameters('migrServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', copyIndex(), '/DataDriveConfig')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex())))]"
+      ],
+      "tags": {
+        "displayName": "migrVMs/DataDriveConfig"
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/ChaseManhatton/AXPOC_Template/master/Scripts/InitDataDrive.ps1"
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -file InitDataDrive.ps1"
+        }
+      },
+      "copy": {
+        "name": "migrDiskConfigCopy",
+        "count": "[parameters('migrServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex(), '/JoinDomain'))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', copyIndex(), '/extensions/ConfigIIS'))]"
+      ],
+      "tags": {
+        "displayName": "migrVMs/JoinDomain"
+      },
+      "properties": {
+        "protectedsettings": {
+          "Password": "[parameters('domainPassword')]"
+        },
+        "publisher": "Microsoft.Compute",
+        "settings": {
+          "Name": "[parameters('domainToJoin')]",
+          "User": "[concat(parameters('domainToJoin'), '\\', parameters('domainUsername'))]",
+          "Restart": "true",
+          "Options": "[parameters('domainJoinOptions')]"
+        },
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.0"
+      },
+      "copy": {
+        "name": "migrVMsJoinDomainExtCopy",
+        "count": "[parameters('migrServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', copyIndex()),'/', 'ConfigIIS')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "migrVMs/ConfigIIS"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'migr', copyIndex(), '/extensions/DataDriveConfig'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.8",
+        "settings": {
+          "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
+          "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
+          "Properties": {
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', copyIndex())]"
+          }
+        },
+        "protectedSettings": null
+      },
+      "copy": {
+        "name": "migrVMsIISConfigCopy",
+        "count": "[parameters('migrServerCount')]"
+      }
+    },
+    {
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex()))]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "portalServerNICs"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/', concat(toLower(parameters('appServerHostNamePrefix')), 'portal_LB'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "FEAdapter",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('appServerNICsSubnetRef')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(variables('portalLBID'), '/backendAddressPools/BE')]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "copy": {
+        "name": "portalServerNICsCopy",
+        "count": "[parameters('portalServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'portal_PIP')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "portalPublicIP"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[toLower(concat(parameters('appServerHostNamePrefix'), parameters('portalPoolLabel')))]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[concat(toLower(parameters('appServerHostNamePrefix')), 'portal_LB')]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "portalLB"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', concat(toLower(parameters('appServerHostNamePrefix')), 'portal_PIP'))]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "LoadBalancerFrontend",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[variables('portalPIPAddressID')]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "BE"
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "LBRule",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('portalLBFrontEndIPConfigID')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('portalLBPoolID')]"
+              },
+              "protocol": "Tcp",
+              "frontendPort": 80,
+              "backendPort": 80,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 5,
+              "probe": {
+                "id": "[variables('portalLBProbeID')]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "tcpProbe",
+            "properties": {
+              "protocol": "Tcp",
+              "port": 80,
+              "intervalInSeconds": 5,
+              "numberOfProbes": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex()))]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal')))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex())))]",
+        "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal')))]"
+      ],
+      "tags": {
+        "displayName": "portalVMs"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('portalVMsSize')]"
+        },
+        "osProfile": {
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex()))]",
+          "adminUsername": "[parameters('vmAdminUsername')]",
+          "adminPassword": "[parameters('vmAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "[parameters('VMsWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "dataDisks": [
+            {
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex(), '-DATA'))]",
+              "diskSizeGB": "[parameters('dataDiskSize')]",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'portal')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex(), '-DATA')), '.vhd')]"
+              },
+              "createOption": "Empty"
+            }
+          ],
+          "osDisk": {
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex(), '-OS'))]",
+            "vhd": {
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'portal')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex(), '-OS')), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex())))]"
+            }
+          ]
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',toLower(concat(parameters('appServerHostNamePrefix'), 'portal')))]"
+        }
+      },
+      "copy": {
+        "name": "portalVMsCopy",
+        "count": "[parameters('portalServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', copyIndex(), '/DataDriveConfig')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex())))]"
+      ],
+      "tags": {
+        "displayName": "portalVMs/DataDriveConfig"
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/ChaseManhatton/AXPOC_Template/master/Scripts/InitDataDrive.ps1"
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -file InitDataDrive.ps1"
+        }
+      },
+      "copy": {
+        "name": "portalDiskConfigCopy",
+        "count": "[parameters('portalServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex(), '/JoinDomain'))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', copyIndex(), '/extensions/ConfigIIS'))]"
+      ],
+      "tags": {
+        "displayName": "portalVMs/JoinDomain"
+      },
+      "properties": {
+        "protectedsettings": {
+          "Password": "[parameters('domainPassword')]"
+        },
+        "publisher": "Microsoft.Compute",
+        "settings": {
+          "Name": "[parameters('domainToJoin')]",
+          "User": "[concat(parameters('domainToJoin'), '\\', parameters('domainUsername'))]",
+          "Restart": "true",
+          "Options": "[parameters('domainJoinOptions')]"
+        },
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.0"
+      },
+      "copy": {
+        "name": "portalVMsJoinDomainExtCopy",
+        "count": "[parameters('portalServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', copyIndex()),'/', 'ConfigIIS')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "portalVMs/ConfigIIS"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'portal', copyIndex(), '/extensions/DataDriveConfig'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.8",
+        "settings": {
+          "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
+          "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
+          "Properties": {
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', copyIndex())]"
+          }
+        },
+        "protectedSettings": null
+      },
+      "copy": {
+        "name": "portalVMsIISConfigCopy",
+        "count": "[parameters('portalServerCount')]"
+      }
+    },
+    {
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex()))]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "tags": {
+        "displayName": "rasServerNICs"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "FEAdapter",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('appServerNICsSubnetRef')]"
+              }
+            }
+          }
+        ]
+      },
+      "copy": {
+        "name": "rasServerNICsCopy",
+        "count": "[parameters('rasServerCount')]"
+      }
+    },
+    {
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex()))]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras')))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex())))]",
+        "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras')))]"
+      ],
+      "tags": {
+        "displayName": "rasVMs"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('rasVMsSize')]"
+        },
+        "osProfile": {
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex()))]",
+          "adminUsername": "[parameters('vmAdminUsername')]",
+          "adminPassword": "[parameters('vmAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "[parameters('VMsWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "dataDisks": [
+            {
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex(), '-DATA'))]",
+              "diskSizeGB": "[parameters('dataDiskSize')]",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'ras')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex(), '-DATA')), '.vhd')]"
+              },
+              "createOption": "Empty"
+            }
+          ],
+          "osDisk": {
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex(), '-OS'))]",
+            "vhd": {
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'ras')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex(), '-OS')), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex())))]"
+            }
+          ]
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets',toLower(concat(parameters('appServerHostNamePrefix'), 'ras')))]"
+        }
+      },
+      "copy": {
+        "name": "rasVMsCopy",
+        "count": "[parameters('rasServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', copyIndex(), '/DataDriveConfig')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex())))]"
+      ],
+      "tags": {
+        "displayName": "rasVMs/DataDriveConfig"
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/ChaseManhatton/AXPOC_Template/master/Scripts/InitDataDrive.ps1"
+          ],
+          "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -file InitDataDrive.ps1"
+        }
+      },
+      "copy": {
+        "name": "rasDiskConfigCopy",
+        "count": "[parameters('rasServerCount')]"
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex(), '/JoinDomain'))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', copyIndex(), '/extensions/ConfigIIS'))]"
+      ],
+      "tags": {
+        "displayName": "rasVMs/JoinDomain"
+      },
+      "properties": {
+        "protectedsettings": {
+          "Password": "[parameters('domainPassword')]"
+        },
+        "publisher": "Microsoft.Compute",
+        "settings": {
+          "Name": "[parameters('domainToJoin')]",
+          "User": "[concat(parameters('domainToJoin'), '\\', parameters('domainUsername'))]",
+          "Restart": "true",
+          "Options": "[parameters('domainJoinOptions')]"
+        },
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.0"
+      },
+      "copy": {
+        "name": "rasVMsJoinDomainExtCopy",
+        "count": "[parameters('rasServerCount')]"
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', copyIndex()),'/', 'ConfigIIS')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "rasVMs/ConfigIIS"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'ras', copyIndex(), '/extensions/DataDriveConfig'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.8",
+        "settings": {
+          "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
+          "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
+          "Properties": {
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', copyIndex())]"
+          }
+        },
+        "protectedSettings": null
+      },
+      "copy": {
+        "name": "rasVMsIISConfigCopy",
+        "count": "[parameters('rasServerCount')]"
       }
     }
   ],
