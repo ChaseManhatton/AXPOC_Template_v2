@@ -465,35 +465,6 @@
         "name": "batchVMsIISConfigCopy",
         "count": "[parameters('batchServerCount')]"
       }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex()),'/', 'WriteServerIDFile')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "batchVMs/WriteServerIDFile"
-      },
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/ConfigIIS'))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.Powershell",
-        "type": "DSC",
-        "typeHandlerVersion": "2.8",
-        "settings": {
-          "ModulesUrl": "[parameters('tempFilePackageUrl')]",
-          "ConfigurationFunction": "TempFile.ps1\\CreateServerIDFile",
-          "Properties": {
-            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex())]"
-          }
-        },
-        "protectedSettings": null
-      },
-      "copy": {
-        "name": "batchVMsTempFileCopy",
-        "count": "[parameters('batchServerCount')]"
-      }
     }
   ],
   "outputs": {
