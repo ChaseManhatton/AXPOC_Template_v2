@@ -1,5 +1,5 @@
 ﻿{
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2016-03-30/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "appServerHostNamePrefix": {
@@ -167,7 +167,7 @@
     "appServerStorageAccountsName": "[concat('appServerStorageAccounts', uniqueString(resourceGroup().id))]",
     "batchPIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_PIP'))]",
     "batchLBID": "[resourceId('Microsoft.Network/loadBalancers',concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]",
-    "batchLBFrontEndIPConfigID": "[concat(variables('batchLBID'),'/frontendIPConfigurations/loadBalancerFrontend')]",
+    "batchLBFrontEndIPConfigID": "[concat(variables('batchLBID'),'/frontendIPConfigurations/LoadBalancerFrontend')]",
     "batchLBPoolID": "[concat(variables('batchLBID'),'/backendAddressPools/BackendPool1')]",
     "batchLBProbeID": "[concat(variables('batchLBID'),'/probes/tcpProbe')]"
   },
@@ -214,8 +214,7 @@
         "displayName": "batchServerNICs"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/loadBalancers/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]",
-        "[concat('Microsoft.Network/loadBalancers/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'), '/inboundNatRules/', 'RDP-VM', copyIndex())]"
+        "[concat('Microsoft.Network/loadBalancers/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH_LB'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -229,11 +228,6 @@
               "loadBalancerBackendAddressPools": [
                 {
                   "id": "[concat(variables('batchLBID'), '/backendAddressPools/BackendPool1')]"
-                }
-              ],
-              "loadBalancerInboundNatRules": [
-                {
-                  "id": "[concat(variables('batchLBID'),'/inboundNatRules/RDP-VM', copyindex())]"
                 }
               ]
             }
