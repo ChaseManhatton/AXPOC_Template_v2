@@ -423,7 +423,7 @@
       }
     },
     {
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex()))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -533,13 +533,13 @@
       }
     },
     {
-      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex()))]",
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'batch', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch')))]",
-        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex())))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', padLeft(copyIndex(), 2, '0'))))]",
         "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch')))]"
       ],
       "tags": {
@@ -550,7 +550,7 @@
           "vmSize": "[parameters('batchVMsSize')]"
         },
         "osProfile": {
-          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex()))]",
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', padLeft(copyIndex(), 2, '0')))]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]"
         },
@@ -563,19 +563,19 @@
           },
           "dataDisks": [
             {
-              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '-DATA'))]",
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', padLeft(copyIndex(), 2, '0'), '-DATA'))]",
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
               "vhd": {
-                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'batch')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '-DATA')), '.vhd')]"
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'batch')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', padLeft(copyIndex(), 2, '0'), '-DATA')), '.vhd')]"
               },
               "createOption": "Empty"
             }
           ],
           "osDisk": {
-            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '-OS'))]",
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', padLeft(copyIndex(), 2, '0'), '-OS'))]",
             "vhd": {
-              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'batch')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '-OS')), '.vhd')]"
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'batch')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', padLeft(copyIndex(), 2, '0'), '-OS')), '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -584,7 +584,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex())))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'batch', padLeft(copyIndex(), 2, '0'))))]"
             }
           ]
         },
@@ -599,11 +599,11 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/DataDriveConfig')]",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', padLeft(copyIndex(), 2, '0'), '/DataDriveConfig')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex())))]"
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'batch', padLeft(copyIndex(), 2, '0'))))]"
       ],
       "tags": {
         "displayName": "batchVMs/DataDriveConfig"
@@ -627,10 +627,10 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', copyIndex(), '/JoinDomain'))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'batch', padLeft(copyIndex(), 2, '0'), '/JoinDomain'))]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/ConfigIIS'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', padLeft(copyIndex(), 2, '0'), '/extensions/ConfigIIS'))]"
       ],
       "tags": {
         "displayName": "batchVMs/JoinDomain"
@@ -656,14 +656,14 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex()),'/', 'ConfigIIS')]",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', padLeft(copyIndex(), 2, '0')),'/', 'ConfigIIS')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "batchVMs/ConfigIIS"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex(), '/extensions/DataDriveConfig'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', padLeft(copyIndex(), 2, '0'), '/extensions/DataDriveConfig'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell",
@@ -673,7 +673,7 @@
           "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
           "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
           "Properties": {
-            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', copyIndex())]"
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'BATCH', padLeft(copyIndex(), 2, '0'))]"
           }
         },
         "protectedSettings": null
@@ -684,7 +684,7 @@
       }
     },
     {
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex()))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -794,13 +794,13 @@
       }
     },
     {
-      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex()))]",
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'calc', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc')))]",
-        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex())))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', padLeft(copyIndex(), 2, '0'))))]",
         "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc')))]"
       ],
       "tags": {
@@ -811,7 +811,7 @@
           "vmSize": "[parameters('calcVMsSize')]"
         },
         "osProfile": {
-          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex()))]",
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', padLeft(copyIndex(), 2, '0')))]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]"
         },
@@ -824,19 +824,19 @@
           },
           "dataDisks": [
             {
-              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex(), '-DATA'))]",
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', padLeft(copyIndex(), 2, '0'), '-DATA'))]",
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
               "vhd": {
-                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'calc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex(), '-DATA')), '.vhd')]"
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'calc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', padLeft(copyIndex(), 2, '0'), '-DATA')), '.vhd')]"
               },
               "createOption": "Empty"
             }
           ],
           "osDisk": {
-            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex(), '-OS'))]",
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', padLeft(copyIndex(), 2, '0'), '-OS'))]",
             "vhd": {
-              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'calc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex(), '-OS')), '.vhd')]"
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'calc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', padLeft(copyIndex(), 2, '0'), '-OS')), '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -845,7 +845,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex())))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'calc', padLeft(copyIndex(), 2, '0'))))]"
             }
           ]
         },
@@ -860,11 +860,11 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', copyIndex(), '/DataDriveConfig')]",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', padLeft(copyIndex(), 2, '0'), '/DataDriveConfig')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex())))]"
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'calc', padLeft(copyIndex(), 2, '0'))))]"
       ],
       "tags": {
         "displayName": "calcVMs/DataDriveConfig"
@@ -888,10 +888,10 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', copyIndex(), '/JoinDomain'))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'calc', padLeft(copyIndex(), 2, '0'), '/JoinDomain'))]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', copyIndex(), '/extensions/ConfigIIS'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', padLeft(copyIndex(), 2, '0'), '/extensions/ConfigIIS'))]"
       ],
       "tags": {
         "displayName": "calcVMs/JoinDomain"
@@ -917,14 +917,14 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', copyIndex()),'/', 'ConfigIIS')]",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', padLeft(copyIndex(), 2, '0')),'/', 'ConfigIIS')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "calcVMs/ConfigIIS"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', copyIndex(), '/extensions/DataDriveConfig'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', padLeft(copyIndex(), 2, '0'), '/extensions/DataDriveConfig'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell",
@@ -934,7 +934,7 @@
           "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
           "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
           "Properties": {
-            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', copyIndex())]"
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'CALC', padLeft(copyIndex(), 2, '0'))]"
           }
         },
         "protectedSettings": null
@@ -945,7 +945,7 @@
       }
     },
     {
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex()))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -1055,13 +1055,13 @@
       }
     },
     {
-      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex()))]",
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'lgcalc', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc')))]",
-        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex())))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', padLeft(copyIndex(), 2, '0'))))]",
         "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc')))]"
       ],
       "tags": {
@@ -1072,7 +1072,7 @@
           "vmSize": "[parameters('lgCalcVMsSize')]"
         },
         "osProfile": {
-          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex()))]",
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', padLeft(copyIndex(), 2, '0')))]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]"
         },
@@ -1085,19 +1085,19 @@
           },
           "dataDisks": [
             {
-              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex(), '-DATA'))]",
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', padLeft(copyIndex(), 2, '0'), '-DATA'))]",
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
               "vhd": {
-                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex(), '-DATA')), '.vhd')]"
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', padLeft(copyIndex(), 2, '0'), '-DATA')), '.vhd')]"
               },
               "createOption": "Empty"
             }
           ],
           "osDisk": {
-            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex(), '-OS'))]",
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', padLeft(copyIndex(), 2, '0'), '-OS'))]",
             "vhd": {
-              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex(), '-OS')), '.vhd')]"
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', padLeft(copyIndex(), 2, '0'), '-OS')), '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -1106,7 +1106,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex())))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', padLeft(copyIndex(), 2, '0'))))]"
             }
           ]
         },
@@ -1121,11 +1121,11 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', copyIndex(), '/DataDriveConfig')]",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', padLeft(copyIndex(), 2, '0'), '/DataDriveConfig')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex())))]"
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'lgcalc', padLeft(copyIndex(), 2, '0'))))]"
       ],
       "tags": {
         "displayName": "lgCalcVMs/DataDriveConfig"
@@ -1149,10 +1149,10 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', copyIndex(), '/JoinDomain'))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'lgcalc', padLeft(copyIndex(), 2, '0'), '/JoinDomain'))]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', copyIndex(), '/extensions/ConfigIIS'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', padLeft(copyIndex(), 2, '0'), '/extensions/ConfigIIS'))]"
       ],
       "tags": {
         "displayName": "lgCalcVMs/JoinDomain"
@@ -1178,14 +1178,14 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', copyIndex()),'/', 'ConfigIIS')]",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', padLeft(copyIndex(), 2, '0')),'/', 'ConfigIIS')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "lgCalcVMs/ConfigIIS"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', copyIndex(), '/extensions/DataDriveConfig'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', padLeft(copyIndex(), 2, '0'), '/extensions/DataDriveConfig'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell",
@@ -1195,7 +1195,7 @@
           "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
           "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
           "Properties": {
-            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', copyIndex())]"
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'LGCALC', padLeft(copyIndex(), 2, '0'))]"
           }
         },
         "protectedSettings": null
@@ -1206,7 +1206,7 @@
       }
     },
     {
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex()))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -1316,13 +1316,13 @@
       }
     },
     {
-      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex()))]",
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'common', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'common')))]",
-        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex())))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'common', padLeft(copyIndex(), 2, '0'))))]",
         "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'common')))]"
       ],
       "tags": {
@@ -1333,7 +1333,7 @@
           "vmSize": "[parameters('commonVMsSize')]"
         },
         "osProfile": {
-          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex()))]",
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', padLeft(copyIndex(), 2, '0')))]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]"
         },
@@ -1346,19 +1346,19 @@
           },
           "dataDisks": [
             {
-              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex(), '-DATA'))]",
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', padLeft(copyIndex(), 2, '0'), '-DATA'))]",
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
               "vhd": {
-                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'common')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex(), '-DATA')), '.vhd')]"
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'common')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'common', padLeft(copyIndex(), 2, '0'), '-DATA')), '.vhd')]"
               },
               "createOption": "Empty"
             }
           ],
           "osDisk": {
-            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex(), '-OS'))]",
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', padLeft(copyIndex(), 2, '0'), '-OS'))]",
             "vhd": {
-              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'common')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex(), '-OS')), '.vhd')]"
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'common')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'common', padLeft(copyIndex(), 2, '0'), '-OS')), '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -1367,7 +1367,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex())))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'common', padLeft(copyIndex(), 2, '0'))))]"
             }
           ]
         },
@@ -1382,11 +1382,11 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', copyIndex(), '/DataDriveConfig')]",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', padLeft(copyIndex(), 2, '0'), '/DataDriveConfig')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex())))]"
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'common', padLeft(copyIndex(), 2, '0'))))]"
       ],
       "tags": {
         "displayName": "commonVMs/DataDriveConfig"
@@ -1410,10 +1410,10 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', copyIndex(), '/JoinDomain'))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'common', padLeft(copyIndex(), 2, '0'), '/JoinDomain'))]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', copyIndex(), '/extensions/ConfigIIS'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', padLeft(copyIndex(), 2, '0'), '/extensions/ConfigIIS'))]"
       ],
       "tags": {
         "displayName": "commonVMs/JoinDomain"
@@ -1439,14 +1439,14 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', copyIndex()),'/', 'ConfigIIS')]",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', padLeft(copyIndex(), 2, '0')),'/', 'ConfigIIS')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "commonVMs/ConfigIIS"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', copyIndex(), '/extensions/DataDriveConfig'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', padLeft(copyIndex(), 2, '0'), '/extensions/DataDriveConfig'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell",
@@ -1456,7 +1456,7 @@
           "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
           "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
           "Properties": {
-            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', copyIndex())]"
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'COMMON', padLeft(copyIndex(), 2, '0'))]"
           }
         },
         "protectedSettings": null
@@ -1467,7 +1467,7 @@
       }
     },
     {
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex()))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -1577,13 +1577,13 @@
       }
     },
     {
-      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex()))]",
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'download', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'download')))]",
-        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex())))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'download', padLeft(copyIndex(), 2, '0'))))]",
         "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'download')))]"
       ],
       "tags": {
@@ -1594,7 +1594,7 @@
           "vmSize": "[parameters('downloadVMsSize')]"
         },
         "osProfile": {
-          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex()))]",
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', padLeft(copyIndex(), 2, '0')))]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]"
         },
@@ -1607,19 +1607,19 @@
           },
           "dataDisks": [
             {
-              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex(), '-DATA'))]",
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', padLeft(copyIndex(), 2, '0'), '-DATA'))]",
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
               "vhd": {
-                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'download')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex(), '-DATA')), '.vhd')]"
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'download')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'download', padLeft(copyIndex(), 2, '0'), '-DATA')), '.vhd')]"
               },
               "createOption": "Empty"
             }
           ],
           "osDisk": {
-            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex(), '-OS'))]",
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', padLeft(copyIndex(), 2, '0'), '-OS'))]",
             "vhd": {
-              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'download')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex(), '-OS')), '.vhd')]"
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'download')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'download', padLeft(copyIndex(), 2, '0'), '-OS')), '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -1628,7 +1628,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex())))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'download', padLeft(copyIndex(), 2, '0'))))]"
             }
           ]
         },
@@ -1643,11 +1643,11 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', copyIndex(), '/DataDriveConfig')]",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', padLeft(copyIndex(), 2, '0'), '/DataDriveConfig')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex())))]"
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'download', padLeft(copyIndex(), 2, '0'))))]"
       ],
       "tags": {
         "displayName": "downloadVMs/DataDriveConfig"
@@ -1671,10 +1671,10 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', copyIndex(), '/JoinDomain'))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'download', padLeft(copyIndex(), 2, '0'), '/JoinDomain'))]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', copyIndex(), '/extensions/ConfigIIS'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', padLeft(copyIndex(), 2, '0'), '/extensions/ConfigIIS'))]"
       ],
       "tags": {
         "displayName": "downloadVMs/JoinDomain"
@@ -1700,14 +1700,14 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', copyIndex()),'/', 'ConfigIIS')]",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', padLeft(copyIndex(), 2, '0')),'/', 'ConfigIIS')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "downloadVMs/ConfigIIS"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', copyIndex(), '/extensions/DataDriveConfig'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', padLeft(copyIndex(), 2, '0'), '/extensions/DataDriveConfig'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell",
@@ -1717,7 +1717,7 @@
           "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
           "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
           "Properties": {
-            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', copyIndex())]"
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'DOWNLOAD', padLeft(copyIndex(), 2, '0'))]"
           }
         },
         "protectedSettings": null
@@ -1728,7 +1728,7 @@
       }
     },
     {
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex()))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -1838,13 +1838,13 @@
       }
     },
     {
-      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex()))]",
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'migr', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr')))]",
-        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex())))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', padLeft(copyIndex(), 2, '0'))))]",
         "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr')))]"
       ],
       "tags": {
@@ -1855,7 +1855,7 @@
           "vmSize": "[parameters('migrVMsSize')]"
         },
         "osProfile": {
-          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex()))]",
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', padLeft(copyIndex(), 2, '0')))]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]"
         },
@@ -1868,19 +1868,19 @@
           },
           "dataDisks": [
             {
-              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex(), '-DATA'))]",
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', padLeft(copyIndex(), 2, '0'), '-DATA'))]",
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
               "vhd": {
-                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'migr')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex(), '-DATA')), '.vhd')]"
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'migr')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', padLeft(copyIndex(), 2, '0'), '-DATA')), '.vhd')]"
               },
               "createOption": "Empty"
             }
           ],
           "osDisk": {
-            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex(), '-OS'))]",
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', padLeft(copyIndex(), 2, '0'), '-OS'))]",
             "vhd": {
-              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'migr')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex(), '-OS')), '.vhd')]"
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'migr')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', padLeft(copyIndex(), 2, '0'), '-OS')), '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -1889,7 +1889,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex())))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'migr', padLeft(copyIndex(), 2, '0'))))]"
             }
           ]
         },
@@ -1904,11 +1904,11 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', copyIndex(), '/DataDriveConfig')]",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', padLeft(copyIndex(), 2, '0'), '/DataDriveConfig')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex())))]"
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'migr', padLeft(copyIndex(), 2, '0'))))]"
       ],
       "tags": {
         "displayName": "migrVMs/DataDriveConfig"
@@ -1932,10 +1932,10 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', copyIndex(), '/JoinDomain'))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'migr', padLeft(copyIndex(), 2, '0'), '/JoinDomain'))]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', copyIndex(), '/extensions/ConfigIIS'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', padLeft(copyIndex(), 2, '0'), '/extensions/ConfigIIS'))]"
       ],
       "tags": {
         "displayName": "migrVMs/JoinDomain"
@@ -1961,14 +1961,14 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', copyIndex()),'/', 'ConfigIIS')]",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', padLeft(copyIndex(), 2, '0')),'/', 'ConfigIIS')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "migrVMs/ConfigIIS"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'migr', copyIndex(), '/extensions/DataDriveConfig'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'migr', padLeft(copyIndex(), 2, '0'), '/extensions/DataDriveConfig'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell",
@@ -1978,7 +1978,7 @@
           "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
           "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
           "Properties": {
-            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', copyIndex())]"
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'MIGR', padLeft(copyIndex(), 2, '0'))]"
           }
         },
         "protectedSettings": null
@@ -1989,7 +1989,7 @@
       }
     },
     {
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex()))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -2099,13 +2099,13 @@
       }
     },
     {
-      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex()))]",
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'portal', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal')))]",
-        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex())))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', padLeft(copyIndex(), 2, '0'))))]",
         "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal')))]"
       ],
       "tags": {
@@ -2116,7 +2116,7 @@
           "vmSize": "[parameters('portalVMsSize')]"
         },
         "osProfile": {
-          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex()))]",
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', padLeft(copyIndex(), 2, '0')))]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]"
         },
@@ -2129,19 +2129,19 @@
           },
           "dataDisks": [
             {
-              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex(), '-DATA'))]",
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', padLeft(copyIndex(), 2, '0'), '-DATA'))]",
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
               "vhd": {
-                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'portal')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex(), '-DATA')), '.vhd')]"
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'portal')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', padLeft(copyIndex(), 2, '0'), '-DATA')), '.vhd')]"
               },
               "createOption": "Empty"
             }
           ],
           "osDisk": {
-            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex(), '-OS'))]",
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', padLeft(copyIndex(), 2, '0'), '-OS'))]",
             "vhd": {
-              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'portal')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex(), '-OS')), '.vhd')]"
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'portal')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', padLeft(copyIndex(), 2, '0'), '-OS')), '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -2150,7 +2150,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex())))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'portal', padLeft(copyIndex(), 2, '0'))))]"
             }
           ]
         },
@@ -2165,11 +2165,11 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', copyIndex(), '/DataDriveConfig')]",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', padLeft(copyIndex(), 2, '0'), '/DataDriveConfig')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex())))]"
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'portal', padLeft(copyIndex(), 2, '0'))))]"
       ],
       "tags": {
         "displayName": "portalVMs/DataDriveConfig"
@@ -2193,10 +2193,10 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', copyIndex(), '/JoinDomain'))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'portal', padLeft(copyIndex(), 2, '0'), '/JoinDomain'))]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', copyIndex(), '/extensions/ConfigIIS'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', padLeft(copyIndex(), 2, '0'), '/extensions/ConfigIIS'))]"
       ],
       "tags": {
         "displayName": "portalVMs/JoinDomain"
@@ -2222,14 +2222,14 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', copyIndex()),'/', 'ConfigIIS')]",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', padLeft(copyIndex(), 2, '0')),'/', 'ConfigIIS')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "portalVMs/ConfigIIS"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'portal', copyIndex(), '/extensions/DataDriveConfig'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'portal', padLeft(copyIndex(), 2, '0'), '/extensions/DataDriveConfig'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell",
@@ -2239,7 +2239,7 @@
           "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
           "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
           "Properties": {
-            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', copyIndex())]"
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'PORTAL', padLeft(copyIndex(), 2, '0'))]"
           }
         },
         "protectedSettings": null
@@ -2250,7 +2250,7 @@
       }
     },
     {
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex()))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
@@ -2276,13 +2276,13 @@
       }
     },
     {
-      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex()))]",
+      "name": "[toUpper(concat(parameters('appServerHostNamePrefix'), 'ras', padLeft(copyIndex(), 2, '0')))]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras')))]",
-        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex())))]",
+        "[concat('Microsoft.Network/networkInterfaces/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', padLeft(copyIndex(), 2, '0'))))]",
         "[concat('Microsoft.Compute/availabilitySets/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras')))]"
       ],
       "tags": {
@@ -2293,7 +2293,7 @@
           "vmSize": "[parameters('rasVMsSize')]"
         },
         "osProfile": {
-          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex()))]",
+          "computerName": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', padLeft(copyIndex(), 2, '0')))]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]"
         },
@@ -2306,19 +2306,19 @@
           },
           "dataDisks": [
             {
-              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex(), '-DATA'))]",
+              "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', padLeft(copyIndex(), 2, '0'), '-DATA'))]",
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
               "vhd": {
-                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'ras')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex(), '-DATA')), '.vhd')]"
+                "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'ras')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', padLeft(copyIndex(), 2, '0'), '-DATA')), '.vhd')]"
               },
               "createOption": "Empty"
             }
           ],
           "osDisk": {
-            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex(), '-OS'))]",
+            "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', padLeft(copyIndex(), 2, '0'), '-OS'))]",
             "vhd": {
-              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'ras')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex(), '-OS')), '.vhd')]"
+              "uri": "[concat('http://', toLower(concat(parameters('appServerHostNamePrefix'), 'ras')), '.blob.core.windows.net/vhds/', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', padLeft(copyIndex(), 2, '0'), '-OS')), '.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -2327,7 +2327,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex())))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', toLower(concat(parameters('appServerHostNamePrefix'), 'ras', padLeft(copyIndex(), 2, '0'))))]"
             }
           ]
         },
@@ -2342,11 +2342,11 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', copyIndex(), '/DataDriveConfig')]",
+      "name": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', padLeft(copyIndex(), 2, '0'), '/DataDriveConfig')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex())))]"
+        "[concat('Microsoft.Compute/virtualMachines/', toUpper(concat(parameters('appServerHostNamePrefix'), 'ras', padLeft(copyIndex(), 2, '0'))))]"
       ],
       "tags": {
         "displayName": "rasVMs/DataDriveConfig"
@@ -2370,10 +2370,10 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', copyIndex(), '/JoinDomain'))]",
+      "name": "[toLower(concat(parameters('appServerHostNamePrefix'), 'ras', padLeft(copyIndex(), 2, '0'), '/JoinDomain'))]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', copyIndex(), '/extensions/ConfigIIS'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', padLeft(copyIndex(), 2, '0'), '/extensions/ConfigIIS'))]"
       ],
       "tags": {
         "displayName": "rasVMs/JoinDomain"
@@ -2399,14 +2399,14 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', copyIndex()),'/', 'ConfigIIS')]",
+      "name": "[concat(concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', padLeft(copyIndex(), 2, '0')),'/', 'ConfigIIS')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "rasVMs/ConfigIIS"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'ras', copyIndex(), '/extensions/DataDriveConfig'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', concat(toUpper(parameters('appServerHostNamePrefix')), 'ras', padLeft(copyIndex(), 2, '0'), '/extensions/DataDriveConfig'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell",
@@ -2416,7 +2416,7 @@
           "ModulesUrl": "[parameters('iisConfigPackageUrl')]",
           "ConfigurationFunction": "AppServerConfig.ps1\\IISConfig",
           "Properties": {
-            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', copyIndex())]"
+            "MachineName": "[concat(toUpper(parameters('appServerHostNamePrefix')), 'RAS', padLeft(copyIndex(), 2, '0'))]"
           }
         },
         "protectedSettings": null
